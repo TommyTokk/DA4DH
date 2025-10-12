@@ -215,4 +215,4 @@ ipython_config.py
 # pyenv
 #   For a library or package, you might want to ignore these file
 #
-./models/*.csv
+data/
