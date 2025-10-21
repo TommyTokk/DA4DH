@@ -216,3 +216,5 @@ ipython_config.py
 #   For a library or package, you might want to ignore these file
 #
 data/
+
+outputs/
