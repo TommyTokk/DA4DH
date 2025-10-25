@@ -6,7 +6,6 @@ from src.utils import data_understanding as du
 import sys
 import pandas as pd
 
-
 def main():
     args = ut.parse_args()
     try:
@@ -16,10 +15,7 @@ def main():
 
             dfs = fut.load_files_from_dir(dir_path)
 
-            for df, file_name in dfs:
-                name = file_name.split(".")[0]
-                ut.create_report(df, file_name=name)
-                # GENERATE REPORTS FOR FILES
+            du.get_ICD_groups(dfs[0][0])
 
             #JOIN
             #...

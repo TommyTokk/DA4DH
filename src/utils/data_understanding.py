@@ -93,8 +93,31 @@ def get_correlation(df:DataFrame, method:str = "kendall"):
     #create the filtered DataFrame
     filtered_df = df[numeric_cols]
 
-    return filtered_df.corr(method=method)
+    return filtered_df.corr(method=method) #pyright:ignore
 
 #ghetti i types
 def get_types(df:DataFrame):
     return df.dtypes
+
+
+def get_ICD_groups(df:DataFrame):
+    """
+    Returns a new dataframe containing, for each ICD code, 
+    the number of Female, Male, and the Total (F + M) with that ICD code
+
+    args:
+        df: Pandas DataFrame
+    return:
+        Pandas dataframe having for each ICD code, 
+        the number of Female, Male, and the Total (F + M) with that ICD code
+    """
+
+    # create the new dataframe
+    # grouped by the ICD code and the gender
+    # calculate the number of uniques genders with that ICD code
+    grouped = df.groupby(['icd_code', 'gender'])['subject_id'].nunique().unstack()
+
+    # calculate the sum of the number of patient having that ICD code
+    grouped["total"] = grouped.sum(axis=1) 
+    
+    return grouped
