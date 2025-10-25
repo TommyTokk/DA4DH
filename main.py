@@ -15,7 +15,9 @@ def main():
 
             dfs = fut.load_files_from_dir(dir_path)
 
-            du.get_ICD_groups(dfs[0][0])
+            #du.get_ICD_groups(dfs[0][0])
+
+            print(du.get_nums_of_abnormal(dfs[1][0]).head(10))
 
             #JOIN
             #...

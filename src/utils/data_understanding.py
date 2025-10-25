@@ -1,5 +1,6 @@
 from pandas import DataFrame
 import numpy as np
+from pandas.io.formats import printing
 
 def get_num_dups(df:DataFrame):
     """
@@ -108,7 +109,7 @@ def get_ICD_groups(df:DataFrame):
     args:
         df: Pandas DataFrame
     return:
-        Pandas dataframe having for each ICD code, 
+        grouped: Pandas dataframe having for each ICD code, 
         the number of Female, Male, and the Total (F + M) with that ICD code
     """
 
@@ -121,3 +122,22 @@ def get_ICD_groups(df:DataFrame):
     grouped["total"] = grouped.sum(axis=1) 
     
     return grouped
+
+def get_nums_of_abnormal(df:DataFrame):
+
+    """
+    Returns, for each hadm_id, the number of abnormal values encountered during the tests 
+
+    args:
+        df: Pandas DataFrame
+
+    return:
+        df_abnormal: Pandas dataframe with, for each hadm_id, the number of abnormal values encountered during the tests
+    """
+    # calculate the number of abnormal test values for each hadm_id
+    df_abnormal = df.groupby("hadm_id")[['valuenum', 'ref_range_lower', 'ref_range_upper']].apply(
+    lambda args: ((args['valuenum'] < args['ref_range_lower']) | 
+                   (args['valuenum'] > args['ref_range_upper'])).sum()
+    )
+
+    return df_abnormal
